@@ -19671,8 +19671,20 @@ var MiniRL = function (_Component) {
 						value: '',
 						memo: ''
 					}],
-					attorney: {},
-					circuit: {}
+					attorney: [{
+						name: '',
+						address: '',
+						party: {
+							name: '',
+							type: ''
+						}
+					}],
+					circuit: [{
+						county: '',
+						caseNumber: '',
+						judgmentDate: '',
+						judgeName: ''
+					}]
 				});
 			});
 		}
