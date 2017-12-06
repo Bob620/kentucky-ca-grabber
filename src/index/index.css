@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: #222;
+  color: white;
+  font-family: 'Rubik', sans-serif;
+  overflow: hidden;
+}
+
+#title > h1, #title > p {
+  margin: 0px;
+  padding: 0px;
+  cursor: default;
+}
+#title {
+  height: 33vh;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#title > h1 {
+  font-size: 4em;
+  padding-top: 1em;
+  padding-bottom: 10px;
+}
+
+#body input, #body button, #body p {
+  margin: 0px;
+  padding: 0px;
+  border-width: 0;
+}
+#body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#body > div {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#body p {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 1em;
+}
+#body textarea {
+  position: fixed;
+  right: -5000px;
+  font-size: 1px;
+  border: none;
+  width: 1px;
+  height: 1px;
+  background-color: transparent;
+  color: #222;
+  padding: 0px;
+  outline: none;
+  box-shadow: none;
+}
+#body button {
+  padding: 0.5em;
+  font-size: 1.5em;
+  border-radius: 0.3em;
+  background-color: #346788;
+  color: black;
+  cursor: pointer;
+  min-width: 20vw;
+}
+#body button:hover {
+  background-color: #29526c;
+}
+
+#body input {
+  padding: 0.5em;
+  font-size: 1.5em;
+  border-radius: 0.3em;
+  margin-bottom: 20px;
+  width: 90vw;
+}
+
+@media screen and (min-width: 750px) {
+  #body > div {
+    flex-direction: row;
+  }
+  #body input {
+    border-top-right-radius: 0em;
+    border-bottom-right-radius: 0em;
+    width: 33vw;
+    margin-bottom: 0px;
+  }
+  #body button {
+    min-width: 0px;
+  }
+  #body > div button {
+    border-top-left-radius: 0em;
+    border-bottom-left-radius: 0em;
+  }
+}

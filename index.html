@@ -2,15 +2,18 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Kentucky CA Grabber</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-
+    <section id="input">
+      <h1>Enter case numbers and years here</h1>
+      <textarea placeholder="2015-CA-001671-MA
+2014-CA-000809-MA" autofocus></textarea>
+      <button>Search</button>
+    </section>
+    <section id="errors">
+      <h1>Cases unable to retrive</h1>
+    </section>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js')
