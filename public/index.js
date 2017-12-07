@@ -19629,13 +19629,13 @@ function _inherits(subClass, superClass) {
 	}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var MiniRL = function (_Component) {
-	_inherits(MiniRL, _Component);
+var IndexPage = function (_Component) {
+	_inherits(IndexPage, _Component);
 
-	function MiniRL(props) {
-		_classCallCheck(this, MiniRL);
+	function IndexPage(props) {
+		_classCallCheck(this, IndexPage);
 
-		var _this = _possibleConstructorReturn(this, (MiniRL.__proto__ || Object.getPrototypeOf(MiniRL)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (IndexPage.__proto__ || Object.getPrototypeOf(IndexPage)).call(this, props));
 
 		_this.state = {
 			CAstring: '',
@@ -19648,7 +19648,7 @@ var MiniRL = function (_Component) {
 		return _this;
 	}
 
-	_createClass(MiniRL, [{
+	_createClass(IndexPage, [{
 		key: 'changeInput',
 		value: function changeInput(e) {
 			this.setState({ CAstring: e.target.value });
@@ -19658,7 +19658,7 @@ var MiniRL = function (_Component) {
 		value: function parseCAs() {
 			var _this2 = this;
 
-			CAstring.split('\n').forEach(function (rawLine) {
+			this.state.CAstring.split('\n').forEach(function (rawLine) {
 				var line = rawLine.split('-');
 				var year = line[0];
 				var caseNumber = line[2];
@@ -19693,20 +19693,27 @@ var MiniRL = function (_Component) {
 		value: function fillCAs() {
 			this.parseCAs();
 			var CAs = this.state.CAs;
-			CAs.forEach(function (CA) {});
+			console.log(CAs);
+			CAs.forEach(function (CA) {
+				_axios2.default.get('http://apps.courts.ky.gov/coa_public/CaseInfo.aspx?case=' + CA.year + 'CA' + CA.caseNumber).then(function (data) {
+					console.log(data);
+				}).catch(function (err) {
+					console.log(err);
+				});
+			});
 		}
 	}, {
 		key: 'render',
 		value: function render() {
 			document.title = "Kentucky CA Grabber";
-			return _react2.default.createElement('div', { className: 'App' }, _react2.default.createElement('section', { id: 'input' }, _react2.default.createElement('h1', null, 'Enter case numbers and years here'), _react2.default.createElement('textarea', { onSubmit: this.getCAs, onChange: this.changeInput, placeholder: '2015-CA-001671-MA\n2014-CA-000809-MA', autofocus: true, value: this.state.CAstring, autoFocus: true }), _react2.default.createElement('button', { type: 'submit' }, 'Search')), _react2.default.createElement('section', { id: 'errors' }, _react2.default.createElement('h1', null, 'Cases unable to retrive')));
+			return _react2.default.createElement('div', { className: 'App' }, _react2.default.createElement('section', { id: 'input' }, _react2.default.createElement('h1', null, 'Enter case numbers and years here'), _react2.default.createElement('textarea', { onChange: this.changeInput, placeholder: '2015-CA-001671-MA\n2014-CA-000809-MA', autoFocus: true, value: this.state.CAstring }), _react2.default.createElement('button', { type: 'submit', onClick: this.fillCAs }, 'Grab Data')), _react2.default.createElement('section', { id: 'errors' }, _react2.default.createElement('h1', null, 'Cases unable to retrive')));
 		}
 	}]);
 
-	return MiniRL;
+	return IndexPage;
 }(_react.Component);
 
-(0, _render2.default)(MiniRL);
+(0, _render2.default)(IndexPage);
 
 },{"./../render.jsx":56,"./index.css":54,"axios":1,"react":53}],56:[function(require,module,exports){
 'use strict';
