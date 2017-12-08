@@ -19638,9 +19638,10 @@ var IndexPage = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (IndexPage.__proto__ || Object.getPrototypeOf(IndexPage)).call(this, props));
 
 		_this.state = {
-			CAstring: '',
-			CAs: new Map()
+			CAstring: ''
 		};
+
+		_this.CAs = new Map();
 
 		_this.changeInput = _this.changeInput.bind(_this);
 		_this.fillCAs = _this.fillCAs.bind(_this);
@@ -19663,10 +19664,10 @@ var IndexPage = function (_Component) {
 				var year = line[0];
 				var caseNumber = line[2];
 				var CAname = year + caseNumber;
-				_this2.state.CAs.set(CAname, {
+				_this2.CAs.set(CAname, {
 					year: year,
 					caseNumber: caseNumber,
-					lastMain: '',
+					lastMainEvent: '',
 					opinion: [{
 						value: '',
 						memo: ''
@@ -19691,12 +19692,109 @@ var IndexPage = function (_Component) {
 	}, {
 		key: 'fillCAs',
 		value: function fillCAs() {
+			var _this3 = this;
+
 			this.parseCAs();
-			var CAs = this.state.CAs;
+			var CAs = this.CAs;
 			console.log(CAs);
-			CAs.forEach(function (CA) {
-				_axios2.default.get('http://apps.courts.ky.gov/coa_public/CaseInfo.aspx?case=' + CA.year + 'CA' + CA.caseNumber).then(function (data) {
-					console.log(data);
+			CAs.forEach(function (baseCA) {
+				_axios2.default.get('http://apps.courts.ky.gov/coa_public/CaseInfo.aspx?case=' + baseCA.year + 'CA' + baseCA.caseNumber).then(function (res) {
+					var rawData = res.data;
+
+					var CA = {
+						year: baseCA.year,
+						caseNumber: baseCA.caseNumber,
+						lastMainEvent: '',
+						opinion: [],
+						attorney: [],
+						circuit: []
+					};
+
+					var lastMainEventOne = rawData.split('Last Main Event:</td>', 2);
+					var lastMainEventTwo = lastMainEventOne[1].split('</td>', 1);
+					var lastMainEvent = lastMainEventTwo[0].split('>', 2);
+					CA.lastMainEvent = lastMainEvent[1];
+
+					var stepSectionOne = rawData.split('Memo</th>', 2);
+					var stepSectionTwo = stepSectionOne[1].split('</table>', 1);
+					var rawStepSheet = stepSectionTwo[0];
+					var rawSteps = rawStepSheet.split('<tr>');
+
+					rawSteps.forEach(function (step) {
+						var rawSteps = step.split('<td');
+						if (rawSteps.length > 4) {
+							var rawStepsDesc = rawSteps[3].split('>');
+							var rawStepsMemo = rawSteps[4].split('>');
+							if (rawStepsDesc[1].startsWith('OPINION -')) {
+								console.log(rawStepsDesc[1]);
+								console.log(rawStepsDesc[1].length);
+								CA.opinion.push({
+									value: rawStepsDesc[1].substr(10, rawStepsDesc[1].length - 4),
+									memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
+								});
+							}
+						}
+					});
+
+					var rawAttorneyInfoOne = rawData.split('id="span_attorney_info"', 2);
+					var rawAttorneyInfoTwo = rawAttorneyInfoOne[1].split('</span>', 1);
+					var rawAttorneyInfo = rawAttorneyInfoTwo[0].split('<tr');
+
+					rawAttorneyInfo.forEach(function (info) {
+						var rawInfo = info.split('<td');
+						if (rawInfo.length > 4) {
+							var almostExtractedInfo = rawInfo[1].split('>');
+							var name = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							almostExtractedInfo = rawInfo[2].split('>');
+							var address = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							almostExtractedInfo = rawInfo[3].split('>');
+							var partyName = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							almostExtractedInfo = rawInfo[4].split('>');
+							var partyType = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							CA.attorney.push({
+								name: name,
+								address: address,
+								party: {
+									name: partyName,
+									type: partyType
+								}
+							});
+						}
+					});
+
+					var rawCircuitInfoOne = rawData.split('id="span_circuitinfo"', 2);
+					var rawCircuitInfoTwo = rawCircuitInfoOne[1].split('</span>', 1);
+					var rawCircuitInfo = rawCircuitInfoTwo[0].split('<tr');
+
+					rawCircuitInfo.forEach(function (info) {
+						var rawInfo = info.split('<td');
+						if (rawInfo.length > 4) {
+							var almostExtractedInfo = rawInfo[1].split('>');
+							var county = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							almostExtractedInfo = rawInfo[2].split('>');
+							var caseNumber = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							almostExtractedInfo = rawInfo[3].split('>');
+							var judgmentDate = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							almostExtractedInfo = rawInfo[4].split('>');
+							var judgeName = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+							CA.circuit.push({
+								county: county,
+								caseNumber: caseNumber,
+								judgmentDate: judgmentDate,
+								judgeName: judgeName
+							});
+						}
+					});
+					_this3.CAs.set(baseCA.year + baseCA.caseNumber, CA);
+					console.log(CA);
 				}).catch(function (err) {
 					console.log(err);
 				});
