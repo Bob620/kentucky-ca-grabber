@@ -101,3 +101,11 @@ body {
     border-bottom-left-radius: 0em;
   }
 }
+
+#log {
+  width: 100vw;
+  display: flex;
+}
+#log > section {
+  width: 50vw;
+}

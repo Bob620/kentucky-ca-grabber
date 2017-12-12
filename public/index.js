@@ -19577,7 +19577,7 @@ if (process.env.NODE_ENV === 'production') {
 
 }).call(this,require('_process'))
 },{"./cjs/react.development.js":51,"./cjs/react.production.min.js":52,"_process":45}],54:[function(require,module,exports){
-var css = "@import url(\"https://fonts.googleapis.com/css?family=Rubik\");\nbody {\n  margin: 0px;\n  padding: 0px;\n  background-color: #222;\n  color: white;\n  font-family: 'Rubik', sans-serif;\n  overflow: hidden;\n}\n#title > h1,\n#title > p {\n  margin: 0px;\n  padding: 0px;\n  cursor: default;\n}\n#title {\n  height: 33vh;\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#title > h1 {\n  font-size: 4em;\n  padding-top: 1em;\n  padding-bottom: 10px;\n}\n#body input,\n#body button,\n#body p {\n  margin: 0px;\n  padding: 0px;\n  border-width: 0;\n}\n#body {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body > div {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body p {\n  padding-top: 20px;\n  padding-bottom: 20px;\n  font-size: 1em;\n}\n#body textarea {\n  position: fixed;\n  right: -5000px;\n  font-size: 1px;\n  border: none;\n  width: 1px;\n  height: 1px;\n  background-color: transparent;\n  color: #222;\n  padding: 0px;\n  outline: none;\n  box-shadow: none;\n}\n#body button {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  background-color: #346788;\n  color: black;\n  cursor: pointer;\n  min-width: 20vw;\n}\n#body button:hover {\n  background-color: #29526c;\n}\n#body input {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  margin-bottom: 20px;\n  width: 90vw;\n}\n@media screen and (min-width: 750px) {\n  #body > div {\n    flex-direction: row;\n  }\n\n  #body input {\n    border-top-right-radius: 0em;\n    border-bottom-right-radius: 0em;\n    width: 33vw;\n    margin-bottom: 0px;\n  }\n\n  #body button {\n    min-width: 0px;\n  }\n\n  #body > div button {\n    border-top-left-radius: 0em;\n    border-bottom-left-radius: 0em;\n  }\n}\n"; (require("browserify-css").createStyle(css, { "href": "src\\index\\index.css" }, { "insertAt": "bottom" })); module.exports = css;
+var css = "@import url(\"https://fonts.googleapis.com/css?family=Rubik\");\nbody {\n  margin: 0px;\n  padding: 0px;\n  background-color: #222;\n  color: white;\n  font-family: 'Rubik', sans-serif;\n  overflow: hidden;\n}\n#title > h1,\n#title > p {\n  margin: 0px;\n  padding: 0px;\n  cursor: default;\n}\n#title {\n  height: 33vh;\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#title > h1 {\n  font-size: 4em;\n  padding-top: 1em;\n  padding-bottom: 10px;\n}\n#body input,\n#body button,\n#body p {\n  margin: 0px;\n  padding: 0px;\n  border-width: 0;\n}\n#body {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body > div {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body p {\n  padding-top: 20px;\n  padding-bottom: 20px;\n  font-size: 1em;\n}\n#body textarea {\n  position: fixed;\n  right: -5000px;\n  font-size: 1px;\n  border: none;\n  width: 1px;\n  height: 1px;\n  background-color: transparent;\n  color: #222;\n  padding: 0px;\n  outline: none;\n  box-shadow: none;\n}\n#body button {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  background-color: #346788;\n  color: black;\n  cursor: pointer;\n  min-width: 20vw;\n}\n#body button:hover {\n  background-color: #29526c;\n}\n#body input {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  margin-bottom: 20px;\n  width: 90vw;\n}\n@media screen and (min-width: 750px) {\n  #body > div {\n    flex-direction: row;\n  }\n\n  #body input {\n    border-top-right-radius: 0em;\n    border-bottom-right-radius: 0em;\n    width: 33vw;\n    margin-bottom: 0px;\n  }\n\n  #body button {\n    min-width: 0px;\n  }\n\n  #body > div button {\n    border-top-left-radius: 0em;\n    border-bottom-left-radius: 0em;\n  }\n}\n#log {\n  width: 100vw;\n  display: flex;\n}\n#log > section {\n  width: 50vw;\n}\n"; (require("browserify-css").createStyle(css, { "href": "src\\index\\index.css" }, { "insertAt": "bottom" })); module.exports = css;
 },{"browserify-css":26}],55:[function(require,module,exports){
 'use strict';
 
@@ -19638,7 +19638,9 @@ var IndexPage = function (_Component) {
 		var _this = _possibleConstructorReturn(this, (IndexPage.__proto__ || Object.getPrototypeOf(IndexPage)).call(this, props));
 
 		_this.state = {
-			CAstring: ''
+			CAstring: '',
+			caseErr: [],
+			caseSuccess: []
 		};
 
 		_this.CAs = new Map();
@@ -19660,33 +19662,35 @@ var IndexPage = function (_Component) {
 			var _this2 = this;
 
 			this.state.CAstring.split('\n').forEach(function (rawLine) {
-				var line = rawLine.split('-');
-				var year = line[0];
-				var caseNumber = line[2];
-				var CAname = year + caseNumber;
-				_this2.CAs.set(CAname, {
-					year: year,
-					caseNumber: caseNumber,
-					lastMainEvent: '',
-					opinion: [{
-						value: '',
-						memo: ''
-					}],
-					attorney: [{
-						name: '',
-						address: '',
-						party: {
+				if (rawLine !== 'undefined') {
+					var line = rawLine.split('-');
+					var year = line[0];
+					var caseNumber = line[2];
+					var CAname = year + caseNumber;
+					_this2.CAs.set(CAname, {
+						year: year,
+						caseNumber: caseNumber,
+						lastMainEvent: '',
+						opinion: [{
+							value: '',
+							memo: ''
+						}],
+						attorney: [{
 							name: '',
-							type: ''
-						}
-					}],
-					circuit: [{
-						county: '',
-						caseNumber: '',
-						judgmentDate: '',
-						judgeName: ''
-					}]
-				});
+							address: '',
+							party: {
+								name: '',
+								type: ''
+							}
+						}],
+						circuit: [{
+							county: '',
+							caseNumber: '',
+							judgmentDate: '',
+							judgeName: ''
+						}]
+					});
+				}
 			});
 		}
 	}, {
@@ -19696,106 +19700,113 @@ var IndexPage = function (_Component) {
 
 			this.parseCAs();
 			var CAs = this.CAs;
-			console.log(CAs);
 			CAs.forEach(function (baseCA) {
 				_axios2.default.get('http://apps.courts.ky.gov/coa_public/CaseInfo.aspx?case=' + baseCA.year + 'CA' + baseCA.caseNumber).then(function (res) {
-					var rawData = res.data;
+					try {
+						var rawData = res.data.replace(/(?:\r\n|\n|\r)/g, ' ');
 
-					var CA = {
-						year: baseCA.year,
-						caseNumber: baseCA.caseNumber,
-						lastMainEvent: '',
-						opinion: [],
-						attorney: [],
-						circuit: []
-					};
+						var CA = {
+							year: baseCA.year,
+							caseNumber: baseCA.caseNumber,
+							lastMainEvent: '',
+							opinion: [],
+							attorney: [],
+							circuit: []
+						};
 
-					var lastMainEventOne = rawData.split('Last Main Event:</td>', 2);
-					var lastMainEventTwo = lastMainEventOne[1].split('</td>', 1);
-					var lastMainEvent = lastMainEventTwo[0].split('>', 2);
-					CA.lastMainEvent = lastMainEvent[1];
+						var lastMainEventOne = rawData.split('Last Main Event:</td>', 2);
+						var lastMainEventTwo = lastMainEventOne[1].split('</td>', 1);
+						var lastMainEvent = lastMainEventTwo[0].split('>', 2);
+						CA.lastMainEvent = lastMainEvent[1];
 
-					var stepSectionOne = rawData.split('Memo</th>', 2);
-					var stepSectionTwo = stepSectionOne[1].split('</table>', 1);
-					var rawStepSheet = stepSectionTwo[0];
-					var rawSteps = rawStepSheet.split('<tr>');
+						var stepSectionOne = rawData.split('Memo</th>', 2);
+						var stepSectionTwo = stepSectionOne[1].split('</table>', 1);
+						var rawStepSheet = stepSectionTwo[0];
+						var rawSteps = rawStepSheet.split('<tr>');
 
-					rawSteps.forEach(function (step) {
-						var rawSteps = step.split('<td');
-						if (rawSteps.length > 4) {
-							var rawStepsDesc = rawSteps[3].split('>');
-							var rawStepsMemo = rawSteps[4].split('>');
-							if (rawStepsDesc[1].startsWith('OPINION -')) {
-								console.log(rawStepsDesc[1]);
-								console.log(rawStepsDesc[1].length);
-								CA.opinion.push({
-									value: rawStepsDesc[1].substr(10, rawStepsDesc[1].length - 4),
-									memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
+						rawSteps.forEach(function (step) {
+							var rawSteps = step.split('<td');
+							if (rawSteps.length > 4) {
+								var rawStepsDesc = rawSteps[3].split('>');
+								var rawStepsMemo = rawSteps[4].split('>');
+								if (rawStepsDesc[1].startsWith('OPINION -')) {
+									CA.opinion.push({
+										value: rawStepsDesc[1].substr(10, rawStepsDesc[1].length - 14),
+										memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
+									});
+								}
+							}
+						});
+
+						var rawAttorneyInfoOne = rawData.split('id="span_attorney_info"', 2);
+						var rawAttorneyInfoTwo = rawAttorneyInfoOne[1].split('</span>', 1);
+						var rawAttorneyInfo = rawAttorneyInfoTwo[0].split('<tr');
+
+						rawAttorneyInfo.forEach(function (info) {
+							var rawInfo = info.split('<td');
+							if (rawInfo.length > 4) {
+								var almostExtractedInfo = rawInfo[1].split('>');
+								var name = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+								almostExtractedInfo = rawInfo[2].split('>');
+								var address = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+								almostExtractedInfo = rawInfo[3].split('>');
+								var partyName = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+								almostExtractedInfo = rawInfo[4].split('>');
+								var partyType = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+
+								CA.attorney.push({
+									name: name,
+									address: address,
+									party: {
+										name: partyName,
+										type: partyType
+									}
 								});
 							}
-						}
-					});
+						});
 
-					var rawAttorneyInfoOne = rawData.split('id="span_attorney_info"', 2);
-					var rawAttorneyInfoTwo = rawAttorneyInfoOne[1].split('</span>', 1);
-					var rawAttorneyInfo = rawAttorneyInfoTwo[0].split('<tr');
+						var rawCircuitInfoOne = rawData.split('id="span_circuitinfo"', 2);
+						var rawCircuitInfoTwo = rawCircuitInfoOne[1].split('</span>', 1);
+						var rawCircuitInfo = rawCircuitInfoTwo[0].split('<tr');
 
-					rawAttorneyInfo.forEach(function (info) {
-						var rawInfo = info.split('<td');
-						if (rawInfo.length > 4) {
-							var almostExtractedInfo = rawInfo[1].split('>');
-							var name = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+						rawCircuitInfo.forEach(function (info) {
+							var rawInfo = info.split('<td');
+							if (rawInfo.length > 4) {
+								var almostExtractedInfo = rawInfo[1].split('>');
+								var county = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
 
-							almostExtractedInfo = rawInfo[2].split('>');
-							var address = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+								almostExtractedInfo = rawInfo[2].split('>');
+								var caseNumber = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
 
-							almostExtractedInfo = rawInfo[3].split('>');
-							var partyName = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+								almostExtractedInfo = rawInfo[3].split('>');
+								var judgmentDate = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
 
-							almostExtractedInfo = rawInfo[4].split('>');
-							var partyType = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
+								almostExtractedInfo = rawInfo[4].split('>');
+								var judgeName = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
 
-							CA.attorney.push({
-								name: name,
-								address: address,
-								party: {
-									name: partyName,
-									type: partyType
-								}
-							});
-						}
-					});
+								CA.circuit.push({
+									county: county,
+									caseNumber: caseNumber,
+									judgmentDate: judgmentDate,
+									judgeName: judgeName
+								});
+							}
+						});
+						_this3.CAs.set(baseCA.year + baseCA.caseNumber, CA);
 
-					var rawCircuitInfoOne = rawData.split('id="span_circuitinfo"', 2);
-					var rawCircuitInfoTwo = rawCircuitInfoOne[1].split('</span>', 1);
-					var rawCircuitInfo = rawCircuitInfoTwo[0].split('<tr');
-
-					rawCircuitInfo.forEach(function (info) {
-						var rawInfo = info.split('<td');
-						if (rawInfo.length > 4) {
-							var almostExtractedInfo = rawInfo[1].split('>');
-							var county = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
-
-							almostExtractedInfo = rawInfo[2].split('>');
-							var caseNumber = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
-
-							almostExtractedInfo = rawInfo[3].split('>');
-							var judgmentDate = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
-
-							almostExtractedInfo = rawInfo[4].split('>');
-							var judgeName = almostExtractedInfo[1].substr(0, almostExtractedInfo[1].length - 4);
-
-							CA.circuit.push({
-								county: county,
-								caseNumber: caseNumber,
-								judgmentDate: judgmentDate,
-								judgeName: judgeName
-							});
-						}
-					});
-					_this3.CAs.set(baseCA.year + baseCA.caseNumber, CA);
-					console.log(CA);
+						var caseSuccess = _this3.state.caseSuccess;
+						caseSuccess.push({ info: 'Retrived ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
+						_this3.setState({ caseSuccess: caseSuccess });
+					} catch (err) {
+						var caseErr = _this3.state.caseErr;
+						caseErr.push({ err: 'Unable to retrive ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
+						_this3.setState({ caseErr: caseErr });
+					}
 				}).catch(function (err) {
+					console.log('Please report this error:');
 					console.log(err);
 				});
 			});
@@ -19804,7 +19815,11 @@ var IndexPage = function (_Component) {
 		key: 'render',
 		value: function render() {
 			document.title = "Kentucky CA Grabber";
-			return _react2.default.createElement('div', { className: 'App' }, _react2.default.createElement('section', { id: 'input' }, _react2.default.createElement('h1', null, 'Enter case numbers and years here'), _react2.default.createElement('textarea', { onChange: this.changeInput, placeholder: '2015-CA-001671-MA\n2014-CA-000809-MA', autoFocus: true, value: this.state.CAstring }), _react2.default.createElement('button', { type: 'submit', onClick: this.fillCAs }, 'Grab Data')), _react2.default.createElement('section', { id: 'errors' }, _react2.default.createElement('h1', null, 'Cases unable to retrive')));
+			return _react2.default.createElement('div', { className: 'App' }, _react2.default.createElement('section', { id: 'input' }, _react2.default.createElement('h1', null, 'Enter case numbers and years here'), _react2.default.createElement('textarea', { onChange: this.changeInput, placeholder: '2015-CA-001671-MA\n2014-CA-000809-MA', autoFocus: true, value: this.state.CAstring }), _react2.default.createElement('button', { type: 'submit', onClick: this.fillCAs }, 'Grab Data')), _react2.default.createElement('section', { id: 'log' }, _react2.default.createElement('section', { id: 'error' }, _react2.default.createElement('h1', null, 'Cases unable to retrive'), this.state.caseErr.map(function (element, i) {
+				return _react2.default.createElement('div', { key: i }, _react2.default.createElement('h5', null, element.err));
+			})), _react2.default.createElement('section', { id: 'success' }, _react2.default.createElement('h1', null, 'Cases retrived'), this.state.caseSuccess.map(function (element, i) {
+				return _react2.default.createElement('div', { key: i }, _react2.default.createElement('h5', null, element.info));
+			}))));
 		}
 	}]);
 
