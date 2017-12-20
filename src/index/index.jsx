@@ -2,6 +2,9 @@ import Render from './../render.jsx';
 import React, { Component } from 'react';
 import axios from 'axios';
 import './index.css';
+const fs = window.require('fs'); 
+const remote = window.require('electron').remote;
+const dialog = remote.dialog;
 
 class IndexPage extends Component {
   constructor(props) {
@@ -10,7 +13,8 @@ class IndexPage extends Component {
 		 this.state = {
 			 CAstring: '',
 			 caseErr: [],
-			 caseSuccess: []
+			 caseSuccess: [],
+			 processing: false
 		 }
 		 
 		 this.CAs = new Map();
@@ -18,6 +22,50 @@ class IndexPage extends Component {
 		 this.changeInput = this.changeInput.bind(this);
 		 this.fillCAs = this.fillCAs.bind(this);
 		 this.parseCAs = this.parseCAs.bind(this);
+		 this.createFile = this.createFile.bind(this);
+	}
+
+	createFile() {
+		let content = 'Year,Case Number,Last Main Event,Opinon ~:~ Memo,Attornery Name ~~ Party ~:~ Party Type,Circuit ~:~ Judge Last Name; First Name ~~ Judgment Date\n';
+		this.CAs.forEach(({found, year, lastMainEvent, caseNumber, opinion, attorney, circuit}) => {
+			if (found) {
+				content = content + `${year},${caseNumber},${lastMainEvent},`;
+				for (let i = 0; i < opinion.length-1; i++) {
+					const opi = opinion[i];
+					content = content+`${opi.value} ~:~ ${opi.memo} ~|~ `;
+				}
+				const opi = opinion[opinion.length-1];
+				content = content+`${opi.value} ~:~ ${opi.memo},`;
+
+				for (let i = 0; i < attorney.length-1; i++) {
+					const attor = attorney[i];
+					content = content+`${attor.name} ~~ ${attor.party.name} ~:~ ${attor.party.type} ~|~ `;
+				}
+				const attor = attorney[attorney.length-1];
+				content = content+`${attor.name} ~~ ${attor.party.name} ~:~ ${attor.party.type},`;
+				
+				for (let i = 0; i < circuit.length-1; i++) {
+					const circ = circuit[i];
+					content = content+`${circ.county} ~:~ ${circ.judgeName} ~~ ${circ.judgmentDate} ~|~ `;
+				}
+				const circ = circuit[circuit.length-1];
+				content = content+`${circ.county} ~:~ ${circ.judgeName} ~~ ${circ.judgmentDate}\n`;
+			}
+		});
+		dialog.showSaveDialog({defaultPath: 'CaseInfo.csv'}, (fileName) => {
+			if (fileName === undefined){
+					console.log("You didn't save the file");
+					return;
+			}
+		
+			// fileName is a string that contains the path and filename created in the save file dialog.  
+			fs.writeFile(fileName, content, (err) => {
+					if(err){
+							alert("An error ocurred creating the file "+ err.message)
+					}
+					alert("The file has been succesfully saved");
+			});
+		});
 	}
 
 	changeInput(e) {
@@ -32,6 +80,7 @@ class IndexPage extends Component {
 				const caseNumber = line[2];
 				const CAname = year + caseNumber;
 				this.CAs.set(CAname, {
+					found: false,
 					year,
 					caseNumber,
 					lastMainEvent: '',
@@ -59,12 +108,17 @@ class IndexPage extends Component {
 	}
 
 	fillCAs() {
+		this.setState({
+			processing: true,
+			caseErr: [],
+			caseSuccess: []
+		});
 		this.parseCAs();
 		const CAs = this.CAs;
 		CAs.forEach((baseCA) => {
 			axios.get('http://apps.courts.ky.gov/coa_public/CaseInfo.aspx?case='+baseCA.year+'CA'+baseCA.caseNumber).then((res) => {
 				try {
-					const rawData = res.data.replace(/(?:\r\n|\n|\r)/g, ' ');
+					const rawData = res.data.replace(/(?:\r\n|\n|\r)/g, ' ').replace(/,/g, ';');
 					
 					let CA = {
 						year: baseCA.year,
@@ -156,15 +210,21 @@ class IndexPage extends Component {
 								});
 						}
 					});
+					CA.found = true;
+
 					this.CAs.set(baseCA.year + baseCA.caseNumber, CA);
 
 					let caseSuccess = this.state.caseSuccess;
-					caseSuccess.push({info: 'Retrived '+baseCA.year+'-CA-'+baseCA.caseNumber+'-MA'});
+					caseSuccess.push({id: baseCA.year+baseCA.caseNumber, info: 'Retrived '+baseCA.year+'-CA-'+baseCA.caseNumber+'-MA'});
 					this.setState({caseSuccess});
 				} catch(err) {
 					let caseErr = this.state.caseErr;
-					caseErr.push({err: 'Unable to retrive '+baseCA.year+'-CA-'+baseCA.caseNumber+'-MA'});
+					caseErr.push({id: baseCA.year+baseCA.caseNumber, info: 'Unable to retrive '+baseCA.year+'-CA-'+baseCA.caseNumber+'-MA'});
 					this.setState({caseErr});
+				}
+				console.log(this.CAs.size+" | "+this.state.caseErr.length + this.state.caseSuccess.length);
+				if (this.CAs.size == this.state.caseErr.length + this.state.caseSuccess.length) {
+					this.setState({processing: false});
 				}
 			}).catch((err) => {
 				console.log('Please report this error:');
@@ -175,24 +235,26 @@ class IndexPage extends Component {
 
 	render() {
 		document.title = "Kentucky CA Grabber";
+		console.log(this.state.processing);
 		return (
 			<div className="App">
 				<section id="input">
 					<h1>Enter case numbers and years here</h1>
 					<textarea onChange={this.changeInput} placeholder="2015-CA-001671-MA&#10;2014-CA-000809-MA" autoFocus value={this.state.CAstring}></textarea>
-					<button type="submit" onClick={this.fillCAs}>Grab Data</button>
+					<button type="submit" onClick={this.fillCAs}>Grab CAs</button>
+					<button type="submit" disabled={this.state.processing} onClick={this.createFile}>{this.state.processing ? "Getting CAs..." : "Export to File"}</button>
 				</section>
 				<section id="log">
 					<section id="error">
 						<h1>Cases unable to retrive</h1>
 						{this.state.caseErr.map((element, i) => {
-							return (<div key={i}><h5>{element.err}</h5></div>)
+							return (<div key={element.id}><h5>{element.info}</h5></div>)
 						})}
 					</section>
 					<section id="success">
 						<h1>Cases retrived</h1>
 						{this.state.caseSuccess.map((element, i) => {
-							return (<div key={i}><h5>{element.info}</h5></div>)
+							return (<div key={element.id}><h5>{element.info}</h5></div>)
 						})}
 					</section>
 				</section>

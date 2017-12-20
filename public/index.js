@@ -19577,7 +19577,7 @@ if (process.env.NODE_ENV === 'production') {
 
 }).call(this,require('_process'))
 },{"./cjs/react.development.js":51,"./cjs/react.production.min.js":52,"_process":45}],54:[function(require,module,exports){
-var css = "@import url(\"https://fonts.googleapis.com/css?family=Rubik\");\nbody {\n  margin: 0px;\n  padding: 0px;\n  background-color: #222;\n  color: white;\n  font-family: 'Rubik', sans-serif;\n  overflow: hidden;\n}\n#title > h1,\n#title > p {\n  margin: 0px;\n  padding: 0px;\n  cursor: default;\n}\n#title {\n  height: 33vh;\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#title > h1 {\n  font-size: 4em;\n  padding-top: 1em;\n  padding-bottom: 10px;\n}\n#body input,\n#body button,\n#body p {\n  margin: 0px;\n  padding: 0px;\n  border-width: 0;\n}\n#body {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body > div {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body p {\n  padding-top: 20px;\n  padding-bottom: 20px;\n  font-size: 1em;\n}\n#body textarea {\n  position: fixed;\n  right: -5000px;\n  font-size: 1px;\n  border: none;\n  width: 1px;\n  height: 1px;\n  background-color: transparent;\n  color: #222;\n  padding: 0px;\n  outline: none;\n  box-shadow: none;\n}\n#body button {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  background-color: #346788;\n  color: black;\n  cursor: pointer;\n  min-width: 20vw;\n}\n#body button:hover {\n  background-color: #29526c;\n}\n#body input {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  margin-bottom: 20px;\n  width: 90vw;\n}\n@media screen and (min-width: 750px) {\n  #body > div {\n    flex-direction: row;\n  }\n\n  #body input {\n    border-top-right-radius: 0em;\n    border-bottom-right-radius: 0em;\n    width: 33vw;\n    margin-bottom: 0px;\n  }\n\n  #body button {\n    min-width: 0px;\n  }\n\n  #body > div button {\n    border-top-left-radius: 0em;\n    border-bottom-left-radius: 0em;\n  }\n}\n#log {\n  width: 100vw;\n  display: flex;\n}\n#log > section {\n  width: 50vw;\n}\n"; (require("browserify-css").createStyle(css, { "href": "src\\index\\index.css" }, { "insertAt": "bottom" })); module.exports = css;
+var css = "@import url(\"https://fonts.googleapis.com/css?family=Rubik\");\nbody {\n  margin: 0px;\n  padding: 0px;\n  background-color: #222;\n  color: white;\n  font-family: 'Rubik', sans-serif;\n  overflow: hidden;\n  overflow-y: scroll;\n}\n#title > h1,\n#title > p {\n  margin: 0px;\n  padding: 0px;\n  cursor: default;\n}\n#title {\n  height: 33vh;\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#title > h1 {\n  font-size: 4em;\n  padding-top: 1em;\n  padding-bottom: 10px;\n}\n#body input,\n#body button,\n#body p {\n  margin: 0px;\n  padding: 0px;\n  border-width: 0;\n}\n#body {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body > div {\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n#body p {\n  padding-top: 20px;\n  padding-bottom: 20px;\n  font-size: 1em;\n}\n#body textarea {\n  position: fixed;\n  right: -5000px;\n  font-size: 1px;\n  border: none;\n  width: 1px;\n  height: 1px;\n  background-color: transparent;\n  color: #222;\n  padding: 0px;\n  outline: none;\n  box-shadow: none;\n}\n#body button {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  background-color: #346788;\n  color: black;\n  cursor: pointer;\n  min-width: 20vw;\n}\n#body button:hover {\n  background-color: #29526c;\n}\n#body input {\n  padding: 0.5em;\n  font-size: 1.5em;\n  border-radius: 0.3em;\n  margin-bottom: 20px;\n  width: 90vw;\n}\n@media screen and (min-width: 750px) {\n  #body > div {\n    flex-direction: row;\n  }\n\n  #body input {\n    border-top-right-radius: 0em;\n    border-bottom-right-radius: 0em;\n    width: 33vw;\n    margin-bottom: 0px;\n  }\n\n  #body button {\n    min-width: 0px;\n  }\n\n  #body > div button {\n    border-top-left-radius: 0em;\n    border-bottom-left-radius: 0em;\n  }\n}\n#log {\n  width: 100vw;\n  display: flex;\n}\n#log > section {\n  width: 50vw;\n}\n"; (require("browserify-css").createStyle(css, { "href": "src\\index\\index.css" }, { "insertAt": "bottom" })); module.exports = css;
 },{"browserify-css":26}],55:[function(require,module,exports){
 'use strict';
 
@@ -19629,6 +19629,10 @@ function _inherits(subClass, superClass) {
 	}subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
+var fs = window.require('fs');
+var remote = window.require('electron').remote;
+var dialog = remote.dialog;
+
 var IndexPage = function (_Component) {
 	_inherits(IndexPage, _Component);
 
@@ -19640,7 +19644,8 @@ var IndexPage = function (_Component) {
 		_this.state = {
 			CAstring: '',
 			caseErr: [],
-			caseSuccess: []
+			caseSuccess: [],
+			processing: false
 		};
 
 		_this.CAs = new Map();
@@ -19648,10 +19653,63 @@ var IndexPage = function (_Component) {
 		_this.changeInput = _this.changeInput.bind(_this);
 		_this.fillCAs = _this.fillCAs.bind(_this);
 		_this.parseCAs = _this.parseCAs.bind(_this);
+		_this.createFile = _this.createFile.bind(_this);
 		return _this;
 	}
 
 	_createClass(IndexPage, [{
+		key: 'createFile',
+		value: function createFile() {
+			var content = 'Year,Case Number,Last Main Event,Opinon ~:~ Memo,Attornery Name ~~ Party ~:~ Party Type,Circuit ~:~ Judge Last Name; First Name ~~ Judgment Date\n';
+			this.CAs.forEach(function (_ref) {
+				var found = _ref.found,
+				    year = _ref.year,
+				    lastMainEvent = _ref.lastMainEvent,
+				    caseNumber = _ref.caseNumber,
+				    opinion = _ref.opinion,
+				    attorney = _ref.attorney,
+				    circuit = _ref.circuit;
+
+				if (found) {
+					content = content + (year + ',' + caseNumber + ',' + lastMainEvent + ',');
+					for (var i = 0; i < opinion.length - 1; i++) {
+						var _opi = opinion[i];
+						content = content + (_opi.value + ' ~:~ ' + _opi.memo + ' ~|~ ');
+					}
+					var opi = opinion[opinion.length - 1];
+					content = content + (opi.value + ' ~:~ ' + opi.memo + ',');
+
+					for (var _i = 0; _i < attorney.length - 1; _i++) {
+						var _attor = attorney[_i];
+						content = content + (_attor.name + ' ~~ ' + _attor.party.name + ' ~:~ ' + _attor.party.type + ' ~|~ ');
+					}
+					var attor = attorney[attorney.length - 1];
+					content = content + (attor.name + ' ~~ ' + attor.party.name + ' ~:~ ' + attor.party.type + ',');
+
+					for (var _i2 = 0; _i2 < circuit.length - 1; _i2++) {
+						var _circ = circuit[_i2];
+						content = content + (_circ.county + ' ~:~ ' + _circ.judgeName + ' ~~ ' + _circ.judgmentDate + ' ~|~ ');
+					}
+					var circ = circuit[circuit.length - 1];
+					content = content + (circ.county + ' ~:~ ' + circ.judgeName + ' ~~ ' + circ.judgmentDate + '\n');
+				}
+			});
+			dialog.showSaveDialog({ defaultPath: 'CaseInfo.csv' }, function (fileName) {
+				if (fileName === undefined) {
+					console.log("You didn't save the file");
+					return;
+				}
+
+				// fileName is a string that contains the path and filename created in the save file dialog.  
+				fs.writeFile(fileName, content, function (err) {
+					if (err) {
+						alert("An error ocurred creating the file " + err.message);
+					}
+					alert("The file has been succesfully saved");
+				});
+			});
+		}
+	}, {
 		key: 'changeInput',
 		value: function changeInput(e) {
 			this.setState({ CAstring: e.target.value });
@@ -19668,6 +19726,7 @@ var IndexPage = function (_Component) {
 					var caseNumber = line[2];
 					var CAname = year + caseNumber;
 					_this2.CAs.set(CAname, {
+						found: false,
 						year: year,
 						caseNumber: caseNumber,
 						lastMainEvent: '',
@@ -19698,12 +19757,17 @@ var IndexPage = function (_Component) {
 		value: function fillCAs() {
 			var _this3 = this;
 
+			this.setState({
+				processing: true,
+				caseErr: [],
+				caseSuccess: []
+			});
 			this.parseCAs();
 			var CAs = this.CAs;
 			CAs.forEach(function (baseCA) {
 				_axios2.default.get('http://apps.courts.ky.gov/coa_public/CaseInfo.aspx?case=' + baseCA.year + 'CA' + baseCA.caseNumber).then(function (res) {
 					try {
-						var rawData = res.data.replace(/(?:\r\n|\n|\r)/g, ' ');
+						var rawData = res.data.replace(/(?:\r\n|\n|\r)/g, ' ').replace(/,/g, ';');
 
 						var CA = {
 							year: baseCA.year,
@@ -19795,15 +19859,21 @@ var IndexPage = function (_Component) {
 								});
 							}
 						});
+						CA.found = true;
+
 						_this3.CAs.set(baseCA.year + baseCA.caseNumber, CA);
 
 						var caseSuccess = _this3.state.caseSuccess;
-						caseSuccess.push({ info: 'Retrived ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
+						caseSuccess.push({ id: baseCA.year + baseCA.caseNumber, info: 'Retrived ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
 						_this3.setState({ caseSuccess: caseSuccess });
 					} catch (err) {
 						var caseErr = _this3.state.caseErr;
-						caseErr.push({ err: 'Unable to retrive ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
+						caseErr.push({ id: baseCA.year + baseCA.caseNumber, info: 'Unable to retrive ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
 						_this3.setState({ caseErr: caseErr });
+					}
+					console.log(_this3.CAs.size + " | " + _this3.state.caseErr.length + _this3.state.caseSuccess.length);
+					if (_this3.CAs.size == _this3.state.caseErr.length + _this3.state.caseSuccess.length) {
+						_this3.setState({ processing: false });
 					}
 				}).catch(function (err) {
 					console.log('Please report this error:');
@@ -19815,10 +19885,11 @@ var IndexPage = function (_Component) {
 		key: 'render',
 		value: function render() {
 			document.title = "Kentucky CA Grabber";
-			return _react2.default.createElement('div', { className: 'App' }, _react2.default.createElement('section', { id: 'input' }, _react2.default.createElement('h1', null, 'Enter case numbers and years here'), _react2.default.createElement('textarea', { onChange: this.changeInput, placeholder: '2015-CA-001671-MA\n2014-CA-000809-MA', autoFocus: true, value: this.state.CAstring }), _react2.default.createElement('button', { type: 'submit', onClick: this.fillCAs }, 'Grab Data')), _react2.default.createElement('section', { id: 'log' }, _react2.default.createElement('section', { id: 'error' }, _react2.default.createElement('h1', null, 'Cases unable to retrive'), this.state.caseErr.map(function (element, i) {
-				return _react2.default.createElement('div', { key: i }, _react2.default.createElement('h5', null, element.err));
+			console.log(this.state.processing);
+			return _react2.default.createElement('div', { className: 'App' }, _react2.default.createElement('section', { id: 'input' }, _react2.default.createElement('h1', null, 'Enter case numbers and years here'), _react2.default.createElement('textarea', { onChange: this.changeInput, placeholder: '2015-CA-001671-MA\n2014-CA-000809-MA', autoFocus: true, value: this.state.CAstring }), _react2.default.createElement('button', { type: 'submit', onClick: this.fillCAs }, 'Grab CAs'), _react2.default.createElement('button', { type: 'submit', disabled: this.state.processing, onClick: this.createFile }, this.state.processing ? "Getting CAs..." : "Export to File")), _react2.default.createElement('section', { id: 'log' }, _react2.default.createElement('section', { id: 'error' }, _react2.default.createElement('h1', null, 'Cases unable to retrive'), this.state.caseErr.map(function (element, i) {
+				return _react2.default.createElement('div', { key: element.id }, _react2.default.createElement('h5', null, element.info));
 			})), _react2.default.createElement('section', { id: 'success' }, _react2.default.createElement('h1', null, 'Cases retrived'), this.state.caseSuccess.map(function (element, i) {
-				return _react2.default.createElement('div', { key: i }, _react2.default.createElement('h5', null, element.info));
+				return _react2.default.createElement('div', { key: element.id }, _react2.default.createElement('h5', null, element.info));
 			}))));
 		}
 	}]);
