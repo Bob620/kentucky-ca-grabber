@@ -149,6 +149,16 @@ class IndexPage extends Component {
 									value: rawStepsDesc[1].substr(10, rawStepsDesc[1].length - 14),
 									memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
 								});
+							} else if (rawStepsDesc[1].startsWith('OPINION AND ')) {
+								CA.opinion.push({
+									value: rawStepsDesc[1].substr(20, rawStepsDesc[1].length - 24),
+									memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
+								});
+							} else if (rawStepsDesc[1].startsWith('OPIN.- ')) {
+								CA.opinion.push({
+									value: rawStepsDesc[1].substr(7, rawStepsDesc[1].length - 11),
+									memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
+								});
 							}
 						}
 					});
@@ -215,11 +225,11 @@ class IndexPage extends Component {
 					this.CAs.set(baseCA.year + baseCA.caseNumber, CA);
 
 					let caseSuccess = this.state.caseSuccess;
-					caseSuccess.push({id: baseCA.year+baseCA.caseNumber, info: 'Retrived '+baseCA.year+'-CA-'+baseCA.caseNumber+'-MA'});
+					caseSuccess.push({id: baseCA.year+baseCA.caseNumber, info: 'Retrived '+baseCA.year+'-CA-'+baseCA.caseNumber});
 					this.setState({caseSuccess});
 				} catch(err) {
 					let caseErr = this.state.caseErr;
-					caseErr.push({id: baseCA.year+baseCA.caseNumber, info: 'Unable to retrive '+baseCA.year+'-CA-'+baseCA.caseNumber+'-MA'});
+					caseErr.push({id: baseCA.year+baseCA.caseNumber, info: 'Unable to retrive '+baseCA.year+'-CA-'+baseCA.caseNumber});
 					this.setState({caseErr});
 				}
 				console.log(this.CAs.size+" | "+this.state.caseErr.length + this.state.caseSuccess.length);

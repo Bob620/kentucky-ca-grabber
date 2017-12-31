@@ -19798,6 +19798,16 @@ var IndexPage = function (_Component) {
 										value: rawStepsDesc[1].substr(10, rawStepsDesc[1].length - 14),
 										memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
 									});
+								} else if (rawStepsDesc[1].startsWith('OPINION AND ')) {
+									CA.opinion.push({
+										value: rawStepsDesc[1].substr(20, rawStepsDesc[1].length - 24),
+										memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
+									});
+								} else if (rawStepsDesc[1].startsWith('OPIN.- ')) {
+									CA.opinion.push({
+										value: rawStepsDesc[1].substr(7, rawStepsDesc[1].length - 11),
+										memo: rawStepsMemo[1].substr(0, rawStepsMemo[1].length - 4)
+									});
 								}
 							}
 						});
@@ -19864,11 +19874,11 @@ var IndexPage = function (_Component) {
 						_this3.CAs.set(baseCA.year + baseCA.caseNumber, CA);
 
 						var caseSuccess = _this3.state.caseSuccess;
-						caseSuccess.push({ id: baseCA.year + baseCA.caseNumber, info: 'Retrived ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
+						caseSuccess.push({ id: baseCA.year + baseCA.caseNumber, info: 'Retrived ' + baseCA.year + '-CA-' + baseCA.caseNumber });
 						_this3.setState({ caseSuccess: caseSuccess });
 					} catch (err) {
 						var caseErr = _this3.state.caseErr;
-						caseErr.push({ id: baseCA.year + baseCA.caseNumber, info: 'Unable to retrive ' + baseCA.year + '-CA-' + baseCA.caseNumber + '-MA' });
+						caseErr.push({ id: baseCA.year + baseCA.caseNumber, info: 'Unable to retrive ' + baseCA.year + '-CA-' + baseCA.caseNumber });
 						_this3.setState({ caseErr: caseErr });
 					}
 					console.log(_this3.CAs.size + " | " + _this3.state.caseErr.length + _this3.state.caseSuccess.length);
